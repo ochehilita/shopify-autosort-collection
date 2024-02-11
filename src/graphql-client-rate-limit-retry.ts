@@ -8,7 +8,7 @@ export class GraphQLClientRateLimitRetry {
   delay: number;
   client: GraphQLClient;
 
-  constructor(url: string, options: RequestConfig, maxRetries: number = 3, delay: number = 1000) {
+  constructor(url: string, options: RequestConfig, maxRetries: number = 5, delay: number = 1000) {
     this.url = url;
     this.options = options;
     this.maxRetries = maxRetries;
@@ -29,7 +29,7 @@ export class GraphQLClientRateLimitRetry {
           );
           if (rateLimitError) {
             console.log('Rate limited. Retrying after delay...');
-            await new Promise(resolve => setTimeout(resolve, this.delay));
+            await new Promise(resolve => setTimeout(resolve, this.delay * (retries + 1)));
             retries++;
           } else {
             throw error;
