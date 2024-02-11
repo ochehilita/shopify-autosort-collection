@@ -1,11 +1,12 @@
-import { GraphQLClient, gql } from 'graphql-request';
+import { gql } from 'graphql-request';
 import fetch from 'cross-fetch';
 import { z } from 'zod';
 import { config } from './config';
 import { Collection, CollectionSchema, Product, ProductSchema } from './types';
 import { sleep } from './utils';
+import { GraphQLClientRateLimitRetry } from './graphql-client-rate-limit-retry'
 
-const client = new GraphQLClient(config.graphql.endpoint, {
+const client = new GraphQLClientRateLimitRetry(config.graphql.endpoint, {
   fetch,
   headers: {
     'Content-Type': 'application/graphql',
