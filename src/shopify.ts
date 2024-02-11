@@ -146,13 +146,13 @@ const MoveProductsSchema = z.object({
     })),
   })
 });
-export const moveProducts = async (collectionId: string, productIds: string[], index: number) => {
+export const moveProducts = async (collectionId: string, productIds: string[]) => {
   const batchSize = 250;
 
   let startIndex = 0;
   while (startIndex < productIds.length) {
     const batchIds = productIds.slice(startIndex, startIndex + batchSize);
-    const moves = batchIds.map(productId => ({ id: productId, newPosition: (index + startIndex).toString() }));
+    const moves = batchIds.map((productId, index) => ({ id: productId, newPosition: (index + startIndex).toString() }));
 
     const result = await client.request(MOVE_PRODUCTS, { collectionId, moves });
     const { collectionReorderProducts } = MoveProductsSchema.parse(result);
