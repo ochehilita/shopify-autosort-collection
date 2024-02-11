@@ -116,7 +116,10 @@ export const getProducts = async (collectionId: string, locationId: string, sort
 
   return allProducts.map(product => ({
     ...product,
-    totalInventory: product.variants.nodes.reduce((sum, variant) => sum + variant.inventoryItem.inventoryLevel.quantities[0].quantity, 0),
+    totalInventory: product.variants.nodes.reduce((sum, variant) => {
+      const variantInventory = Math.max(variant.inventoryItem.inventoryLevel.quantities[0]?.quantity ?? 0, 0);
+      return sum + variantInventory;
+    }, 0),
   }));
 }
 
