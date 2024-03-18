@@ -3,6 +3,10 @@
     "default": {
       "moveUnavailableToEnd": true,
       "sort": "best_selling"
+    },
+    "nouveeaute-chien": {
+      "moveUnavailableToEnd": true,
+      "sort": false
     }
   }
 }
